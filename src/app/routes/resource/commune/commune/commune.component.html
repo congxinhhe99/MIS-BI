@@ -1,0 +1,192 @@
+<page-header-wrapper [title]="tittle" onBack="{() => window.history.back()}">
+  <nz-card [nzBordered]="false">
+    <nz-row>
+      <nz-col nzSm="16" nzXS="24" nzMd="16" class="padding-bottom-10">
+        <button
+          nz-button
+          nzType="primary"
+          (click)="btnReload.Click($event)"
+          class="btn-reload"
+          *ngIf="btnReload.Visible && btnReload.GrandAccess"
+        >
+          <i nz-icon nzType="reload" nzTheme="outline"></i>{{ btnReload.Title }}
+        </button>
+        <button nz-button nzType="primary" (click)="btnAdd.Click($event)" class="btn-primary" *ngIf="btnAdd.Visible && btnAdd.GrandAccess">
+          <i nz-icon nzType="file-add" nzTheme="fill"></i>{{ btnAdd.Title }}
+        </button>
+        <button
+          nz-button
+          nz-dropdown
+          [nzDropdownMenu]="menu"
+          *ngIf="(btnExportExcel.Visible && btnExportExcel.GrandAccess) || (btnImportExcel.Visible && btnImportExcel.GrandAccess)"
+          class="btn-excel"
+        >
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          Excel<i nz-icon nzType="down"></i>
+        </button>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>
+              <button
+                nz-button
+                nzType="primary"
+                (click)="btnExportExcel.Click($event)"
+                class="btn-excel"
+                *ngIf="btnExportExcel.Visible && btnExportExcel.GrandAccess"
+              >
+                <i nz-icon nzType="download" nzTheme="outline"></i>{{ btnExportExcel.Title }}
+              </button>
+            </li>
+            <li nz-menu-item>
+              <button
+                nz-button
+                nzType="primary"
+                (click)="btnImportExcel.Click($event)"
+                class="btn-excel"
+                *ngIf="btnImportExcel.Visible && btnImportExcel.GrandAccess"
+              >
+                <i nz-icon nzType="upload" nzTheme="outline"></i>{{ btnImportExcel.Title }}
+              </button>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+        <button
+          nz-button
+          nzType="primary"
+          class="btn-danger"
+          (click)="btnDelete.Click($event)"
+          *ngIf="btnDelete.Visible && btnDelete.GrandAccess"
+        >
+          <i nz-icon nzType="delete" nzTheme="fill"></i>{{ btnDelete.Title }}
+        </button>
+      </nz-col>
+      <nz-col nzSm="8" nzXS="24" nzMd="8" class="pull-right padding-bottom-10">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input type="text" [(ngModel)]="filter.textSearch" nz-input placeholder="Nhập từ khóa tìm kiếm" (keyup.enter)="initGridData()" />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button
+            nz-button
+            nzType="default"
+            nzSearch
+            (click)="filter.ShowAdSearch = !filter.ShowAdSearch; onResetSearch(true)"
+            title="Tìm kiếm nâng cao"
+          >
+            <i nz-icon nzType="caret-down" nzTheme="outline" *ngIf="!filter.ShowAdSearch"></i>
+            <i nz-icon nzType="caret-up" nzTheme="outline" *ngIf="filter.ShowAdSearch"></i>
+          </button>
+        </ng-template>
+      </nz-col>
+    </nz-row>
+    <nz-row [hidden]="!filter.ShowAdSearch">
+      <nz-col nzSm="7" nzXS="12" nzMd="7" class="padding-bottom-10">
+        <nz-form-item class="margin-0">
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status">Trạng thái</nz-form-label>
+          <nz-form-control [nzSm]="16" [nzXs]="24">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn trạng thái" [(ngModel)]="filter.status">
+              <nz-option *ngFor="let option of listStatus" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzSm="7" nzXS="12" nzMd="7" class="padding-bottom-10">
+        <nz-form-item class="margin-0">
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status">Tỉnh thành</nz-form-label>
+          <nz-form-control [nzSm]="16" [nzXs]="24">
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Chọn tỉnh thành"
+              [(ngModel)]="selectedProvince"
+              (ngModelChange)="onProvinceChange($event)"
+            >
+              <nz-option nzLabel="Chọn tất cả" [nzValue]=""></nz-option>
+              <nz-option *ngFor="let option of listProvince" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzSm="7" nzXS="12" nzMd="7" class="padding-bottom-10">
+        <nz-form-item class="margin-0">
+          <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="status">Quận huyện</nz-form-label>
+          <nz-form-control [nzSm]="15" [nzXs]="24">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn quận huyện" [(ngModel)]="filter.districtId">
+              <nz-option nzLabel="Chọn tất cả" [nzValue]=""></nz-option>
+              <nz-option *ngFor="let option of listDistrict" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col nzSm="3" nzXS="12" nzMd="3" class="padding-bottom-10">
+        <button
+          nz-button
+          nzType="primary"
+          (click)="btnSearch.Click($event)"
+          class="btn-success"
+          *ngIf="btnSearch.Visible && btnSearch.GrandAccess"
+        >
+          <i nz-icon nzType="search" nzTheme="outline"></i>{{ btnSearch.Title }}
+        </button>
+      </nz-col>
+    </nz-row>
+    <nz-row>
+      <ag-grid-angular
+        #agGrid
+        style="width: 100%; height: 70vh;"
+        id="myGrid"
+        class="ag-theme-alpine"
+        [modules]="modules"
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        [suppressRowClickSelection]="true"
+        [rowSelection]="rowSelection"
+        [rowData]="rowData"
+        (selectionChanged)="onSelectionChanged($event)"
+        (cellDoubleClicked)="onCellDoubleClicked($event)"
+        [overlayLoadingTemplate]="overlayLoadingTemplate"
+        [overlayNoRowsTemplate]="overlayNoRowsTemplate"
+        [frameworkComponents]="frameworkComponents"
+        [excelStyles]="excelStyles"
+        (gridReady)="onGridReady($event)"
+      >
+      </ag-grid-angular>
+      <hr />
+    </nz-row>
+    <nz-row>
+      <nz-col nzSm="12" nzXS="24" nzMd="12">
+        <span [innerHTML]="paginationMessage"></span>
+      </nz-col>
+      <nz-col nzSm="12" nzXS="24" nzMd="12" class="right">
+        <div class="cs-pagination">
+          <nz-pagination
+            [(nzPageIndex)]="filter.pageNumber"
+            [(nzPageSize)]="filter.pageSize"
+            [nzTotal]="grid.totalData"
+            (nzPageIndexChange)="onPageNumberChange()"
+            (nzPageSizeChange)="onPageSizeChange()"
+            [nzPageSizeOptions]="pageSizeOptions"
+            nzShowSizeChanger
+            nzShowQuickJumper
+          >
+          </nz-pagination>
+        </div>
+      </nz-col>
+    </nz-row>
+  </nz-card>
+</page-header-wrapper>
+
+<app-commune-item
+  #itemModal
+  [isVisible]="modal.isShow"
+  [item]="modal.item"
+  [type]="modal.type"
+  [option]="modal.option"
+  (eventEmmit)="onModalEventEmmit($event)"
+>
+</app-commune-item>
+
+<delete-modal #deleteModal [isVisible]="isShowDelete" (eventEmmit)="onDeleteEventEmmit($event)"></delete-modal>
+
+<app-commune-import-item #importModal [isVisible]="isShowImport" (eventEmmit)="onImportEventEmmit($event)"></app-commune-import-item>

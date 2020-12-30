@@ -1,0 +1,263 @@
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  nzMaskClosable="false"
+  (nzOnCancel)="handleCancel()"
+  nzWidth="1000"
+  style="margin-left: 50;"
+>
+  <ng-template #modalTitle> {{ tittle }} </ng-template>
+
+  <ng-template #modalContent>
+    <form nz-form [formGroup]="form" (ngSubmit)="save()">
+      <nz-row>
+        <!-- đơn vị cha required -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="dvCha">Đơn vị cha</nz-form-label>
+            <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Đơn vị cha không được để trống!">
+              <nz-select
+                (ngModelChange)="onProvinceChange($event)"
+                nzShowSearch
+                nzAllowClear
+                nzPlaceHolder="Chọn đơn vị cha"
+                formControlName="dvCha"
+              >
+                <nz-option *ngFor="let option of listOrganization" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- trạng thái required -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item nz-row>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="status">Trạng thái</nz-form-label>
+            <nz-form-control [nzSpan]="15">
+              <nz-switch formControlName="status" nzSize="small" style="margin-right: 5px;"></nz-switch>
+              <label>
+                <nz-tag [nzColor]="'#00BB00'" [hidden]="!form.value.status">Hoạt động</nz-tag>
+                <nz-tag [nzColor]="'#EF5350'" [hidden]="form.value.status">Không hoạt động</nz-tag>
+              </label>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- mã đơn vị required -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzMd]="8" [nzSm]="7" [nzXs]="24" nzRequired nzFor="maDv">Mã đơn vị</nz-form-label>
+            <nz-form-control [nzMd]="15" [nzSm]="16" [nzXs]="24" nzErrorTip="Mã đơn vị không được để trống!">
+              <input nz-input formControlName="maDv" id="maDv" placeholder="Nhập vào mã" />
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- email -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzMd]="8" [nzSm]="7" [nzXs]="24" nzFor="email">Email</nz-form-label>
+            <nz-form-control [nzMd]="15" [nzSm]="16" [nzXs]="24">
+              <input nz-input formControlName="email" id="email" placeholder="Nhập vào Email" />
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- tên đơn vị required -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzMd]="8" [nzSm]="7" [nzXs]="24" nzRequired nzFor="tenDv">Tên đơn vị</nz-form-label>
+            <nz-form-control [nzMd]="15" [nzSm]="16" [nzXs]="24" nzErrorTip="Tên đơn vị không được để trống!">
+              <input nz-input formControlName="tenDv" id="tenDv" placeholder="Nhập vào tên" />
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- address -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzMd]="8" [nzSm]="7" [nzXs]="24" nzFor="address">Address</nz-form-label>
+            <nz-form-control [nzMd]="15" [nzSm]="16" [nzXs]="24">
+              <input nz-input formControlName="address" id="address" placeholder="Nhập vào Address" />
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- loại required-->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="loai">Loại</nz-form-label>
+            <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Loại không được để trống!">
+              <nz-select
+                (ngModelChange)="onProvinceChange($event)"
+                nzShowSearch
+                nzAllowClear
+                nzPlaceHolder="Chọn loại"
+                formControlName="loai"
+              >
+                <nz-option *ngFor="let option of listType" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- tên viết tắt -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzMd]="8" [nzSm]="7" [nzXs]="24" nzFor="tenVietTat">Tên viết tắt</nz-form-label>
+            <nz-form-control [nzMd]="15" [nzSm]="16" [nzXs]="24">
+              <input nz-input formControlName="tenVietTat" id="tenVietTat" placeholder="Nhập vào Tên viết tắt" />
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- loại hình đợn vị -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="loaiDv">Loại hình đơn vị</nz-form-label>
+            <nz-form-control [nzSm]="15" [nzXs]="24">
+              <nz-select
+                (ngModelChange)="onProvinceChange($event)"
+                nzShowSearch
+                nzAllowClear
+                nzPlaceHolder="Chọn tỉnh thành"
+                formControlName="loaiDv"
+              >
+                <nz-option *ngFor="let option of listAreaOperation" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- điện thoại -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzMd]="8" [nzSm]="7" [nzXs]="24" nzFor="phone">Điện thoại</nz-form-label>
+            <nz-form-control [nzMd]="15" [nzSm]="16" [nzXs]="24">
+              <input nz-input formControlName="phone" id="phone" placeholder="Nhập vào Điện thoại" />
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- tỉnh thành phố -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="provinceId">Tỉnh thành</nz-form-label>
+            <nz-form-control [nzSm]="15" [nzXs]="24">
+              <nz-select
+                (ngModelChange)="onProvinceChange($event)"
+                nzShowSearch
+                nzAllowClear
+                nzPlaceHolder="Chọn tỉnh thành"
+                formControlName="provinceId"
+              >
+                <nz-option *ngFor="let option of listProvince" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- thứ tự -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="thuTu">Thứ tự</nz-form-label>
+            <nz-form-control [nzSm]="15" [nzXs]="24">
+              <nz-input-number nz-input formControlName="thuTu" id="thuTu" placeholder="Nhập vào Thứ tự"></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- quận huyện -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="districtId">Quận huyện</nz-form-label>
+            <nz-form-control [nzSm]="15" [nzXs]="24">
+              <nz-select
+                (ngModelChange)="onDistrictChange($event)"
+                nzShowSearch
+                nzAllowClear
+                nzPlaceHolder="Chọn quận huyện"
+                formControlName="districtId"
+              >
+                <nz-option *ngFor="let option of listDistrict" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- logo -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzMd]="8" [nzSm]="7" [nzXs]="24" nzFor="logo">logo</nz-form-label>
+            <nz-form-control [nzMd]="15" [nzSm]="16" [nzXs]="24">
+              <input nz-input formControlName="logo" id="logo" placeholder="Nhập vào logo" />
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- phường xã -->
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="communeId">Phường xã</nz-form-label>
+            <nz-form-control [nzSm]="15" [nzXs]="24">
+              <nz-select
+                (ngModelChange)="onProvinceChange($event)"
+                nzShowSearch
+                nzAllowClear
+                nzPlaceHolder="Chọn phường/xã"
+                formControlName="communeId"
+              >
+                <nz-option *ngFor="let option of listCommune" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <!-- mô tả -->
+        <nz-col [nzMd]="24" [nzSm]="24" [nzXs]="24">
+          <nz-form-item style="margin-bottom: 0;">
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="description">
+              Mô tả
+            </nz-form-label>
+            <nz-form-control [nzSm]="21" [nzXs]="24">
+              <textarea rows="4" nz-input id="description" formControlName="description" placeholder="Nhập vào mô tả"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzMd]="12" [nzSm]="24" [nzXs]="24">
+          <span>Chú ý: Dấu </span>
+          <span style="color: red;">* </span>
+          <span>là trường hợp bắt buộc nhập</span>
+        </nz-col>
+      </nz-row>
+    </form>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <button
+      nz-button
+      nzType="primary"
+      class="btn-secondary"
+      *ngIf="isInfo && btnEdit.Visible && btnEdit.GrandAccess"
+      (click)="btnEdit.Click($event)"
+    >
+      <i nz-icon nzType="edit" nzTheme="fill"></i>{{ btnEdit.Title }}
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      class="btn-primary"
+      *ngIf="!isInfo && btnSave.Visible && btnSave.GrandAccess"
+      [nzLoading]="isLoading"
+      (click)="btnSave.Click($event)"
+    >
+      <i nz-icon nzType="save" nzTheme="fill"></i>{{ btnSave.Title }}
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      class="btn-primary"
+      *ngIf="!isInfo && !isEdit && btnSaveAndCreate.Visible && btnSaveAndCreate.GrandAccess"
+      [nzLoading]="isLoading"
+      (click)="btnSaveAndCreate.Click($event)"
+    >
+      <i nz-icon nzType="save" nzTheme="fill"></i>{{ btnSaveAndCreate.Title }}
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      class="btn-warning"
+      *ngIf="btnCancel.Visible && btnCancel.GrandAccess"
+      (click)="btnCancel.Click($event)"
+    >
+      <i nz-icon nzType="close-circle" nzTheme="fill"></i>{{ btnCancel.Title }}
+    </button>
+  </ng-template>
+</nz-modal>

@@ -1,0 +1,82 @@
+{
+    "app": {
+      "name": "MIS-BI",
+      "description": "Management Information System & Business Intelligence",
+      "year": 2020
+    },
+    "user": {
+      "name": "Orion",
+      "avatar": "./assets/tmp/img/avatar.jpg",
+      "email": "duchaindh94@gmail.com"
+    },
+    "menu": [
+      {
+        "text": "Trang chủ",
+        "i18n": "menu.main",
+        "group": true,
+        "hideInBreadcrumb": true,
+        "children": [
+          {
+            "text": "Dashboard",
+            "i18n": "menu.dashboard",
+            "hideInBreadcrumb": true,
+            "icon": "anticon anticon-dashboard",
+            "link": "/dashboard"
+          },
+          {
+            "text": "Quản trị hệ thống",
+            "i18n": "Quản trị hệ thống",
+            "hideInBreadcrumb": true,
+            "icon": "anticon anticon-rocket",
+            "shortcutRoot": true,
+            "children": [
+              {
+                "text": "Quản lý đơn vị, phòng ban",
+                "i18n": "Quản lý đơn vị, phòng ban",
+                "hideInBreadcrumb": true,
+                "icon": "anticon anticon-dashboard",
+                "link": "/cms/organization"
+              }
+            ]
+          },
+           {
+            "text": "Quản lý danh mục",
+            "i18n": "Quản lý danh mục",
+            "hideInBreadcrumb": true,
+            "icon": "anticon anticon-rocket",
+            "shortcutRoot": true,
+            "children": [
+              {
+                "text": "Loại hình đơn vị",
+                "i18n": "Loại hình đơn vị",
+                "hideInBreadcrumb": true,
+                "icon": "anticon anticon-dashboard",
+                "link": "/res/area-operation"
+              },
+              {
+                "text": "Tỉnh thành",
+                "i18n": "Tỉnh thành",
+                "hideInBreadcrumb": true,
+                "icon": "anticon anticon-dashboard",
+                "link": "/res/province"
+              },
+              {
+                "text": "Quận huyện",
+                "i18n": "Quận huyện",
+                "hideInBreadcrumb": true,
+                "icon": "anticon anticon-dashboard",
+                "link": "/res/district"
+              },
+              {
+                "text": "Xã phường",
+                "i18n": "Xã phường",
+                "hideInBreadcrumb": true,
+                "icon": "anticon anticon-dashboard",
+                "link": "/res/commune"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

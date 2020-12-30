@@ -1,0 +1,70 @@
+<page-grid>
+  <div nz-row [nzGutter]="24">
+    <div nz-col nzXs="24" nzSm="12" nzXS="24" nzMd="6">
+      <g2-card title="Card 1" [total]="cardHeader.total1" contentHeight="44px" [action]="action1">
+        <ng-template #action1>
+          <i class="fas fa-expand-alt"></i>
+        </ng-template>
+      </g2-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzXS="24" nzMd="6">
+      <g2-card title="Card 2" [total]="cardHeader.total2" contentHeight="44px" [action]="action2">
+        <ng-template #action2>
+          <i class="fas fa-expand-alt"></i>
+        </ng-template>
+      </g2-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzXS="24" nzMd="6">
+      <g2-card title="Card 3" [total]="cardHeader.total3" contentHeight="44px" [action]="action3">
+        <ng-template #action3>
+          <i class="fas fa-cloud-download-alt"></i>
+        </ng-template>
+      </g2-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzXS="24" nzMd="6">
+      <g2-card title="Card 4" [total]="cardHeader.total4" contentHeight="44px" [action]="action4">
+        <ng-template #action4>
+          <i class="fas fa-arrows-alt"></i>
+        </ng-template>
+      </g2-card>
+    </div>
+  </div>
+  <nz-row [nzGutter]="24">
+    <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="12">
+      <nz-card>
+        <div class="chart-wrapper">
+          <canvas
+            baseChart
+            *ngIf="chart1.ready"
+            [datasets]="chart1.data"
+            [labels]="chart1.labels"
+            [options]="chart1.options"
+            [colors]="chart1.colors"
+            [legend]="chart1.legend"
+            [chartType]="chart1.type"
+            [plugins]="chart1.plugins"
+          >
+          </canvas>
+        </div>
+      </nz-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="12">
+      <nz-card>
+        <div class="chart-wrapper">
+          <canvas
+            baseChart
+            *ngIf="chart2.ready"
+            [datasets]="chart2.data"
+            [labels]="chart2.labels"
+            [options]="chart2.options"
+            [colors]="chart2.colors"
+            [legend]="chart2.legend"
+            [chartType]="chart2.type"
+            [plugins]="chart2.plugins"
+          >
+          </canvas>
+        </div>
+      </nz-card>
+    </div>
+  </nz-row>
+</page-grid>
